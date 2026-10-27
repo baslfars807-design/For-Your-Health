@@ -1,0 +1,917 @@
+/* ==========================================================================
+   القسم 1: المتغيرات الأساسية — الوضع النهاري
+   ========================================================================== */
+:root {
+  --font-display: "Cairo", "Tahoma", sans-serif;
+  --font-body: "Tajawal", "Tahoma", sans-serif;
+  --radius-sm: 10px;
+  --radius-md: 16px;
+  --radius-lg: 26px;
+  --shadow-card: 0 10px 30px -18px rgba(31, 42, 26, 0.35);
+  --shadow-pop: 0 24px 60px -20px rgba(20, 26, 16, 0.45);
+  --ease: cubic-bezier(0.22, 1, 0.36, 1);
+
+  /* الوضع النهاري (افتراضي) */
+  --bg: #FBF8F1;
+  --bg-soft: #F1EDDF;
+  --surface: #FFFFFF;
+  --surface-raised: #FFFFFF;
+  --text: #202A1B;
+  --text-muted: #5C6B54;
+  --border: #E7E1CE;
+  --primary: #2F5D34;
+  --primary-strong: #1F3F23;
+  --on-primary: #FBF8F1;
+  --accent: #E7A400;
+  --accent-soft: #FCEBBD;
+  --tag-keto: #B5533C;
+  --tag-protein: #3C6E8F;
+  --tag-diet: #6B7F3A;
+  --tag-vegetarian: #4C8C4A;
+  --tag-quick: #B58900;
+  --tag-dessert: #A24E76;
+}
+/* ==========================================================================
+   القسم 2: المتغيرات — الوضع الليلي
+   ========================================================================== */
+:root[data-theme="dark"] {
+  --bg: #12160F;
+  --bg-soft: #1A2016;
+  --surface: #1C2318;
+  --surface-raised: #212A1C;
+  --text: #EDEAD9;
+  --text-muted: #9DAB90;
+  --border: #2B3324;
+  --primary: #6FBF73;
+  --primary-strong: #8FD492;
+  --on-primary: #0F1A0F;
+  --accent: #F2C043;
+  --accent-soft: #3A3013;
+  --tag-keto: #D97F68;
+  --tag-protein: #74A9CC;
+  --tag-diet: #A3BE6E;
+  --tag-vegetarian: #7FC17D;
+  --tag-quick: #E0B94A;
+  --tag-dessert: #D080A6;
+}
+/* ==========================================================================
+   القسم 3: إعادة التعيين والأنماط الأساسية
+   ========================================================================== */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  background-color: var(--bg);
+  color: var(--text);
+  font-family: var(--font-body);
+  line-height: 1.6;
+  transition: background-color 0.35s var(--ease), color 0.35s var(--ease);
+}
+
+h1, h2, h3 {
+  font-family: var(--font-display);
+  margin: 0;
+  color: var(--text);
+}
+
+ul, ol { margin: 0; }
+
+button {
+  font: inherit;
+  color: inherit;
+  cursor: pointer;
+}
+
+img { max-width: 100%; display: block; }
+
+:focus-visible {
+  outline: 3px solid var(--accent);
+  outline-offset: 2px;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px; height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+/* ==========================================================================
+   القسم 4: شاشة البداية (Splash)
+   ========================================================================== */
+.splash-screen {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(160deg, var(--primary) 0%, var(--primary-strong) 100%);
+  animation: splash-out 0.6s var(--ease) 1.6s forwards;
+}
+
+.logo-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  color: var(--on-primary);
+  animation: splash-pop 0.7s var(--ease) both;
+}
+
+.splash-icon {
+  font-size: 34px;
+  margin-bottom: 6px;
+  color: var(--accent);
+}
+
+.brand-title {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 32px;
+  letter-spacing: 0.5px;
+}
+
+.brand-sub {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 44px;
+  color: var(--accent);
+}
+
+@keyframes splash-pop {
+  from { opacity: 0; transform: translateY(14px) scale(0.96); }
+  to   { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+@keyframes splash-out {
+  to {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+  }
+}
+/* ==========================================================================
+   القسم 5: الشريط العلوي (Header)
+   ========================================================================== */
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  background: color-mix(in srgb, var(--surface) 95%, transparent);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--border);
+  padding: 10px 0;
+}
+
+.header-inner {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.brand-mark {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--primary);
+  text-decoration: none;
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 16px;
+  white-space: nowrap;
+}
+
+.search-bar {
+  flex: 1 1 100%;
+  order: 3;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--bg-soft);
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  padding: 8px 14px;
+  margin-top: 6px;
+}
+
+.search-bar:focus-within {
+  border-color: var(--primary);
+}
+
+.search-bar input {
+  width: 100%;
+  border: 0;
+  background: transparent;
+  color: var(--text);
+  font-family: var(--font-body);
+  font-size: 14px;
+  outline: none;
+}
+
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+}
+
+.icon-btn {
+  position: relative;
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  border: 1px solid var(--border);
+  background: var(--surface);
+  color: var(--text);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 0.2s var(--ease), transform 0.2s var(--ease);
+}
+
+.icon-btn:hover { background: var(--bg-soft); }
+.icon-btn:active { transform: scale(0.94); }
+
+.icon-btn.is-active {
+  background: var(--accent-soft);
+  border-color: var(--accent);
+  color: var(--primary-strong);
+}
+
+.badge {
+  position: absolute;
+  top: -4px;
+  left: -4px;
+  min-width: 18px;
+  height: 18px;
+  padding: 0 4px;
+  border-radius: 999px;
+  background: var(--accent);
+  color: var(--primary-strong);
+  font-size: 11px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.theme-icon-light { display: none; }
+:root[data-theme="dark"] .theme-icon-dark  { display: none; }
+:root[data-theme="dark"] .theme-icon-light { display: inline; }
+
+@media (min-width: 640px) {
+  .header-inner { flex-wrap: nowrap; }
+  .search-bar {
+    flex: 1;
+    order: 2;
+    margin-top: 0;
+  }
+  .icon-btn { width: 42px; height: 42px; }
+}
+/* ==========================================================================
+   القسم 6: المقدمة والتصنيفات
+   ========================================================================== */
+.hero {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 40px 20px 20px;
+  text-align: center;
+}
+
+.hero-eyebrow {
+  color: var(--primary);
+  font-weight: 700;
+  margin: 0 0 10px;
+}
+
+.hero h1 {
+  font-size: clamp(28px, 5vw, 44px);
+  font-weight: 800;
+  max-width: 18ch;
+  margin: 0 auto 14px;
+}
+
+.hero-lead {
+  color: var(--text-muted);
+  max-width: 52ch;
+  margin: 0 auto;
+  font-size: 17px;
+}
+
+.categories {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 10px 20px 20px;
+}
+
+.category-list {
+  display: flex;
+  gap: 10px;
+  list-style: none;
+  padding: 4px 0;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+
+.category-list::-webkit-scrollbar { display: none; }
+
+.category-chip {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 18px;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  background: var(--surface);
+  color: var(--text-muted);
+  font-weight: 600;
+  white-space: nowrap;
+  transition: all 0.2s var(--ease);
+}
+
+.category-chip:hover {
+  border-color: var(--primary);
+  color: var(--primary);
+}
+
+.category-chip.is-active {
+  background: var(--primary);
+  border-color: var(--primary);
+  color: var(--on-primary);
+}
+/* ==========================================================================
+   القسم 7: شريط الفرز وشبكة البطاقات
+   ========================================================================== */
+.toolbar {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0 20px 14px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.results-summary {
+  margin: 0;
+  color: var(--text-muted);
+  font-size: 14px;
+}
+
+.sort-control {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+  color: var(--text-muted);
+}
+
+.sort-control select {
+  font: inherit;
+  color: var(--text);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 8px 12px;
+}
+
+.recipes-section {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0 20px 72px;
+  min-height: 30vh;
+}
+
+.recipes-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+  padding: 60px 20px;
+  color: var(--text-muted);
+  text-align: center;
+}
+
+.spinner {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  border: 3px solid var(--border);
+  border-top-color: var(--primary);
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+.recipes-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 20px;
+}
+/* ==========================================================================
+   القسم 8: بطاقات الوصفات
+   ========================================================================== */
+.recipe-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  cursor: pointer;
+  transition: transform 0.25s var(--ease), box-shadow 0.25s var(--ease);
+}
+
+.recipe-card:hover,
+.recipe-card:focus-visible {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-card);
+}
+
+.recipe-media {
+  position: relative;
+  aspect-ratio: 4 / 3;
+  background: var(--bg-soft);
+}
+
+.recipe-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.favorite-btn {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: none;
+  background: color-mix(in srgb, var(--surface) 85%, transparent);
+  color: var(--text);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  backdrop-filter: blur(4px);
+  transition: color 0.2s var(--ease), transform 0.2s var(--ease);
+}
+
+.favorite-btn:hover { transform: scale(1.08); }
+.favorite-btn[aria-pressed="true"] { color: var(--accent); }
+.favorite-btn[aria-pressed="true"] i { font-weight: 900; }
+
+.favorite-btn--wide {
+  position: static;
+  width: 100%;
+  height: auto;
+  padding: 12px;
+  border-radius: var(--radius-sm);
+  background: var(--bg-soft);
+  margin-top: 20px;
+  gap: 8px;
+  font-weight: 700;
+}
+
+.recipe-body {
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.recipe-tag {
+  align-self: flex-start;
+  font-size: 12px;
+  font-weight: 700;
+  padding: 4px 10px;
+  border-radius: 999px;
+  background: var(--accent-soft);
+  color: var(--primary-strong);
+}
+
+.recipe-title {
+  font-size: 18px;
+  font-weight: 700;
+}
+
+.recipe-meta {
+  list-style: none;
+  padding: 0;
+  display: flex;
+  gap: 16px;
+  color: var(--text-muted);
+  font-size: 13px;
+  flex-wrap: wrap;
+}
+
+.recipe-meta li {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+/* ==========================================================================
+   القسم 9: نافذة تفاصيل الوصفة (Modal)
+   ========================================================================== */
+.recipe-modal {
+  border: none;
+  border-radius: var(--radius-lg);
+  padding: 0;
+  width: min(560px, 92vw);
+  max-height: 88vh;
+  overflow-y: auto;
+  background: var(--surface);
+  color: var(--text);
+  box-shadow: var(--shadow-pop);
+  position: fixed;
+  inset: 0;
+  margin: auto;
+}
+
+.recipe-modal::backdrop {
+  background: rgba(15, 20, 12, 0.65);
+  backdrop-filter: blur(4px);
+}
+
+.recipe-modal[open] {
+  animation: modal-in 0.3s var(--ease);
+}
+
+@keyframes modal-in {
+  from { opacity: 0; transform: scale(0.95) translateY(10px); }
+  to   { opacity: 1; transform: scale(1) translateY(0); }
+}
+
+.modal-close {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: none;
+  background: color-mix(in srgb, var(--surface) 85%, transparent);
+  color: var(--text);
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.modal-image {
+  width: 100%;
+  height: 240px;
+  object-fit: cover;
+}
+
+.modal-body {
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.modal-list {
+  padding-right: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.modal-steps li {
+  margin-bottom: 6px;
+}
+/* ==========================================================================
+   القسم 10: التذييل (Footer)
+   ========================================================================== */
+.site-footer {
+  border-top: 1px solid var(--border);
+  background: var(--surface);
+  padding: 40px 20px;
+  text-align: center;
+  color: var(--text-muted);
+}
+
+.footer-inner {
+  max-width: 1100px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+}
+
+.footer-links {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin: 16px 0;
+}
+
+.footer-links a {
+  color: var(--accent);
+  text-decoration: none;
+  font-size: 0.9rem;
+  transition: opacity 0.2s ease;
+}
+
+.footer-links a:hover {
+  opacity: 0.75;
+  text-decoration: underline;
+}
+/* ==========================================================================
+   القسم 11: نافذة المصادقة — الهيكل العام
+   ========================================================================== */
+.auth-modal {
+  width: min(92%, 430px);
+  max-width: 430px;
+  max-height: 90vh;
+  padding: 32px 24px;
+  border: 1px solid var(--border-color, #e5e7eb);
+  border-radius: 24px;
+  background: var(--card-bg, #ffffff);
+  color: var(--text-color, #243326);
+  box-shadow: 0 24px 80px rgba(0, 0, 0, 0.22);
+  overflow-y: auto;
+}
+
+.auth-modal[open] {
+  animation: authModalIn 0.25s ease-out;
+}
+
+.auth-modal::backdrop {
+  background: rgba(12, 25, 15, 0.62);
+  backdrop-filter: blur(5px);
+}
+
+.auth-modal .modal-close {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  right: auto;
+}
+
+.auth-modal-content {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.auth-logo {
+  width: 62px;
+  height: 62px;
+  margin: 0 auto 4px;
+  display: grid;
+  place-items: center;
+  border-radius: 20px;
+  background: #e8f3e7;
+  color: #2f5d34;
+  font-size: 28px;
+}
+
+.auth-modal h2 {
+  margin: 0;
+  text-align: center;
+  font-family: "Cairo", sans-serif;
+  font-size: 25px;
+}
+
+.auth-modal-content > p {
+  margin: 0;
+  text-align: center;
+  line-height: 1.8;
+}
+
+@keyframes authModalIn {
+  from {
+    opacity: 0;
+    transform: translateY(12px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@media (max-width: 480px) {
+  .auth-modal {
+    padding: 30px 18px 22px;
+    border-radius: 20px;
+  }
+}
+/* ==========================================================================
+   القسم 12: نموذج المصادقة والأزرار
+   ========================================================================== */
+#authForm {
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+}
+
+#authForm label {
+  font-weight: 700;
+  font-size: 14px;
+}
+
+#authForm input {
+  width: 100%;
+  min-height: 48px;
+  padding: 12px 14px;
+  border: 1px solid #d8e0d8;
+  border-radius: 12px;
+  outline: none;
+  background: var(--input-bg, #ffffff);
+  color: inherit;
+  font: inherit;
+  box-sizing: border-box;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+#authForm input:focus {
+  border-color: #43834a;
+  box-shadow: 0 0 0 3px rgba(67, 131, 74, 0.13);
+}
+
+.auth-submit-btn,
+.google-auth-btn {
+  min-height: 48px;
+  width: 100%;
+  border-radius: 12px;
+  font: inherit;
+  font-weight: 700;
+  cursor: pointer;
+  transition: transform 0.2s, opacity 0.2s;
+}
+
+.auth-submit-btn {
+  margin-top: 8px;
+  border: none;
+  background: #2f5d34;
+  color: #ffffff;
+}
+
+.google-auth-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  border: 1px solid #d8e0d8;
+  background: transparent;
+  color: inherit;
+}
+
+.auth-submit-btn:hover,
+.google-auth-btn:hover {
+  transform: translateY(-1px);
+}
+
+.auth-submit-btn:disabled,
+.google-auth-btn:disabled {
+  opacity: 0.6;
+  cursor: wait;
+}
+
+.auth-message {
+  min-height: 22px;
+  font-size: 14px;
+  overflow-wrap: anywhere;
+}
+
+.auth-message:empty { display: none; }
+
+.auth-message.is-error  { color: #c62828; }
+.auth-message.is-success { color: #2f7d32; }
+.auth-message.success { color: #22863a; }
+.auth-message.error { color: #d93025; }
+
+.auth-switch-btn {
+  border: none;
+  background: transparent;
+  color: #397341;
+  font: inherit;
+  font-weight: 700;
+  cursor: pointer;
+  padding: 8px;
+}
+/* ==========================================================================
+   القسم 13: الوضع الليلي لنوافذ المصادقة
+   ========================================================================== */
+html[data-theme="dark"] .auth-modal {
+  background: var(--card-bg, #202820);
+  color: var(--text-color, #f1f5f1);
+  border-color: #3a473b;
+}
+
+html[data-theme="dark"] .auth-logo {
+  background: #293f2c;
+  color: #a7d8a8;
+}
+
+html[data-theme="dark"] #authForm input {
+  border-color: #465247;
+  background: var(--input-bg, #182019);
+  color: #f1f5f1;
+}
+
+html[data-theme="dark"] .google-auth-btn {
+  border-color: #465247;
+}
+/* ==========================================================================
+   القسم 14: ملف المستخدم (Account Profile)
+   ========================================================================== */
+.account-profile {
+  text-align: center;
+  margin: 18px 0;
+}
+
+.account-profile p {
+  margin: 8px 0;
+  overflow-wrap: anywhere;
+}
+/* ==========================================================================
+   القسم 15: نوافذ البنود والخصوصية
+   ========================================================================== */
+#termsModal .auth-modal-content,
+#privacyModal .auth-modal-content {
+  max-height: 75vh;
+  overflow-y: auto;
+  text-align: right;
+}
+
+#termsModal .auth-modal-content p,
+#privacyModal .auth-modal-content p {
+  line-height: 1.8;
+  margin: 12px 0;
+}
+
+#logoutConfirmModal .auth-modal-content {
+  text-align: center;
+}
+/* ==========================================================================
+   القسم 16: تقليل الحركة والإعدادات النهائية
+   ========================================================================== */
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+
+  .footer-links a {
+    transition: none;
+  }
+}
+/* ===== صورة الملف الشخصي ===== */
+.account-photo {
+  width: 84px;
+  height: 84px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin: 0 auto 10px;
+  border: 3px solid var(--primary);
+  box-shadow: var(--shadow-card);
+  display: block;
+}
+
+.account-avatar-fallback {
+  width: 84px;
+  height: 84px;
+  border-radius: 50%;
+  margin: 0 auto 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--accent-soft);
+  color: var(--primary-strong);
+  font-size: 34px;
+  border: 3px solid var(--primary);
+}
+
+.icon-btn img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 50%;
+}
